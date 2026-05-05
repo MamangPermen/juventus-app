@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: backend-api
-        image: nanaynadhif/juventus-backend:v1
+        image: nanaynadhif/juventus-backend:latest
         imagePullPolicy: Always
         ports:
         - containerPort: 5000
@@ -54,7 +54,7 @@ spec:
     spec:
       containers:
       - name: frontend-ui
-        image: nanaynadhif/juventus-frontend:v1
+        image: nanaynadhif/juventus-frontend:latest
         imagePullPolicy: Always
         ports:
         - containerPort: 80
