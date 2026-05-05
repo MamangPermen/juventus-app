@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Juventus Best XI</title>
+</head>
+<body>
+    <h1 id="katalog-name">Memuat...</h1>
+    <p class="identitas">Pemilik: <span id="owner-name"></span> - <span id="owner-nim"></span></p>
+    
+    <h3>Daftar Pemain:</h3>
+    <ul id="menu-list"></ul>
+    <hr>
+    
+    <h3>Tambah Pemain Baru:</h3>
+    <input type="text" id="menu-input" placeholder="Nama pemain...">
+    <button onclick="tambahMenu()">Tambah</button>
+
+    <script>
+        const API_URL = '/api';
+        
+        function loadData() {
+            fetch(`${API_URL}/info`)
+                .then(res => res.json())
+                .then(data => {
+                    document.getElementById('katalog-name').innerText = data.judul_katalog;
+                    document.getElementById('owner-name').innerText = data.pemilik;
+                    document.getElementById('owner-nim').innerText = data.nim;
+                    
+                    const list = document.getElementById('menu-list');
+                    list.innerHTML = "";
+                    data.items.forEach(item => {
+                        let li = document.createElement('li');
+                        li.innerText = item;
+                        list.appendChild(li);
+                    });
+                });
+        }
+
+        function tambahMenu() {
+            const input = document.getElementById('menu-input');
+            fetch(`${API_URL}/add-item`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ item: input.value })
+            })
+            .then(res => res.json())
+            .then(() => {
+                input.value = '';
+                loadData();
+            });
+        }
+
+        loadData();
+    </script>
+</body>
+</html>
